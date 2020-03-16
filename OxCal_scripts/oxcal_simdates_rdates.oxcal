@@ -1,0 +1,22 @@
+Options()
+{
+    Resolution=10;
+};
+Plot()
+{
+    var(i);
+    var(r);
+    var(st);
+    var(ed);
+    i=1;
+    st=-3686.592;
+    Sum()
+    {
+        while(i < 1000)
+        {
+            r=st + (1000 * sqrt(rand()));
+            R_Simulate(r,20);
+            i=i + 1;
+        };
+    };
+};
