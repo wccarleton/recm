@@ -1,4 +1,4 @@
-poisCode <- nimbleCode({
+nbCode <- nimbleCode({
    ###top-level regression
    B ~ dunif(-1000,1000)
    B0 ~ dunif(-1000,1000)
@@ -35,46 +35,56 @@ K <- dim(Y)[2]
 ##Kennett
 X <- as.vector(Kennett[which(Kennett$TShift <= sample_date_range[2] & Kennett$TShift >= sample_date_range[1] ),3])
 
-poisData <- list(Y=Y,
+nbData <- list(Y=Y,
                 X=X)
 
-poisConsts <- list(N=N,
+nbConsts <- list(N=N,
                     K=K)
-poisInits <- list(B=0,
+nbInits <- list(B=0,
                 B0=0,
                 b=rep(0,K),
                 b0=rep(0,K),
                 sigB=1,
                 sigB0=1)
 
-poisModel <- nimbleModel(code=poisCode,
-                        data=poisData,
-                        inits=poisInits,
-                        constants=poisConsts)
+nbModel <- nimbleModel(code=nbCode,
+                        data=nbData,
+                        inits=nbInits,
+                        constants=nbConsts)
 
 #compile nimble model to C++ code—much faster runtime
-C_poisModel <- compileNimble(poisModel, showCompilerOutput = FALSE)
+C_nbModel <- compileNimble(nbModel, showCompilerOutput = FALSE)
 
 #configure the MCMC
-poisModel_conf <- configureMCMC(poisModel)
+nbModel_conf <- configureMCMC(nbModel)
 
-poisModel_conf$monitors <- c("B","B0","sigB","sigB0")
-poisModel_conf$addMonitors2(c("b","b0"))
+nbModel_conf$monitors <- c("B","B0","sigB","sigB0")
+nbModel_conf$addMonitors2(c("b","b0"))
+
+#samplers
+nbModel_conf$removeSamplers(c("B","B0","b","b0"))
+nbModel_conf$addSampler(target=c("B","B0"),type="AF_slice")
+for(k in 1:K){
+   nbModel_conf$addSampler(target=c(paste("b[",k,"]",sep=""),paste("b0[",k,"]",sep="")),type="AF_slice")
+   #nbModel_conf$addSampler(target=paste("alpha[1:",N,",",k,"]",sep="") ,type="RW_block")
+}
+
+nbModel_conf$printSamplers()
 
 #build MCMC
-poisModelMCMC <- buildMCMC(poisModel_conf)
+nbModelMCMC <- buildMCMC(nbModel_conf)
 
 #compile MCMC to C++—much faster
-C_poisModelMCMC <- compileNimble(poisModelMCMC,project=poisModel)
+C_nbModelMCMC <- compileNimble(nbModelMCMC,project=nbModel)
 
 #number of MCMC iterations
-niter=100000
+niter=1000000
 
 #set seed for replicability
 set.seed(1)
 
 #save the MCMC chain (monitored variables) as a matrix
-samples <- runMCMC(C_poisModelMCMC, niter=niter)
+samples <- runMCMC(C_nbModelMCMC, niter=niter)
 
 #save samples
-save(samples,file="../Results/MCMC/Exp/mcmc_samples_kennett_neg_hier.RData")
+save(samples,file="../Results/MCMC/Kennett/mcmc_samples_kennett_pos_hier.RData")
