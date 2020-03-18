@@ -87,4 +87,4 @@ set.seed(1)
 samples <- runMCMC(C_nbModelMCMC, niter=niter)
 
 #save samples
-save(samples,file="../Results/MCMC/Kennett/mcmc_samples_kennett_pos_hier_200.RData")
+save(samples,file="../Results/MCMC/Kennett/mcmc_samples_kennett_neg_hier_200.RData")
