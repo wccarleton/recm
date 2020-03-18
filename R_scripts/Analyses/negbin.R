@@ -11,15 +11,18 @@ poisCode <- nimbleCode({
 
 #DATA
 ##No Chrono Uncertainty
-Y <- rev(hist(simdates,breaks=seq(start,end))$counts)
+#Y <- rev(hist(simdates,breaks=seq(start,end))$counts)
 #X <- (Ndates - 1):0
-N <- length(Y)
-X <- as.vector(X_sim[,1])
+#N <- length(Y)
+#X <- as.vector(X_sim[,1])
 
 ##RECTS
-#Y <- rects_sample[,sample(1:dim(rects_sample[,-1])[2],size=1)]
-#Y[which(is.na(Y))] <- 0
-#N <- length(Y)
+Y <- rects_sample[,sample(1:dim(rects_sample[,-1])[2],size=1)]
+Y[which(is.na(Y))] <- 0
+N <- length(Y)
+
+##random null
+X <- rnorm(n=N)
 
 ##shifting the time scale
 #shifted_range <- -(sample_date_range - start)
@@ -71,4 +74,4 @@ samples <- runMCMC(C_poisModelMCMC, niter=niter)
 ##rects
 YDF <- cbind(Dates,X,Y)
 save(YDF,file="../Data/SimData/kennett_pos_nochrono.RData")
-save(samples,file="../Results/MCMC/Exp/mcmc_samples_kennett_pos_nochrono.RData")
+save(samples,file="../Results/MCMC/Exp/mcmc_samples_exp_neg_null.RData")
