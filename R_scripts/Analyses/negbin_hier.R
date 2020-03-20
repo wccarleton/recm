@@ -78,7 +78,7 @@ nbModelMCMC <- buildMCMC(nbModel_conf)
 C_nbModelMCMC <- compileNimble(nbModelMCMC,project=nbModel)
 
 #number of MCMC iterations
-niter=200000
+niter=50000
 
 #set seed for replicability
 set.seed(1)
@@ -87,4 +87,4 @@ set.seed(1)
 samples <- runMCMC(C_nbModelMCMC, niter=niter)
 
 #save samples
-save(samples,file="../Results/MCMC/Kennett/mcmc_samples_kennett_neg_hier_200.RData")
+save(samples,file="../Results/MCMC/Kennett/mcmc_samples_kennett_neg_hier.RData")
