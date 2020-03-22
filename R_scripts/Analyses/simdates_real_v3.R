@@ -7,7 +7,7 @@ Ndates = 1000
 start = 6000
 end = 5000
 B = -1
-X_sim <- Kennett[which(Kennett$TShift <= start & Kennett$TShift > end ),c(3,5)]
+X_sim <- Kennett[which(Kennett$TShift <= start & Kennett$TShift >= end ),c(3,5)]
 
 prob_fun <- exp(5 + X_sim[,1] * B)
 
