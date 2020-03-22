@@ -33,7 +33,7 @@ K <- dim(Y)[2]
 #X <- shifted_range[2]:shifted_range[1]
 
 ##Kennett
-X <- as.vector(Kennett[which(Kennett$TShift <= sample_date_range[2] & Kennett$TShift > sample_date_range[1] ),3])
+X <- as.vector(Kennett[which(Kennett$TShift <= sample_date_range[2] & Kennett$TShift >= sample_date_range[1]),3])
 
 nbData <- list(Y=Y,
                 X=X)
