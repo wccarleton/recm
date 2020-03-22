@@ -14,7 +14,7 @@ nsamps <- 1000
 
 sample_date_range <- range(unlist(lapply(c14post[1:ndates],function(x)range(x[,1]))))
 
-c14_matrix <- calSampleApprox(c14post[1:ndates],sample_date_range[1],sample_date_range[2],resolution)
+c14_matrix <- calSampleApprox(c14post[1:ndates],sample_date_range[1]+1,sample_date_range[2],resolution)
 
 Dates <- seq(sample_date_range[1],sample_date_range[2],resolution)
 
