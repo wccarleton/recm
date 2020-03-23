@@ -23,7 +23,7 @@ nbCode <- nimbleCode({
 #N <- length(Y)
 
 ##RECTS
-Y <- rects_sample[,sample(2:dim(rects_sample)[2],size=100,replace=FALSE)]
+Y <- rects_sample[,sample(2:dim(rects_sample)[2],size=200,replace=FALSE)]
 Y[which(is.na(Y))] <- 0
 N <- dim(Y)[1]
 K <- dim(Y)[2]
@@ -63,7 +63,7 @@ nbModel_conf$addMonitors2(c("b","b0"))
 
 #samplers
 nbModel_conf$removeSamplers(c("B","B0","b","b0"))
-nbModel_conf$addSampler(target=c("B","B0"),type="AF_slice")
+nbModel_conf$addSampler(target=c("B","B0"),type="AF_slice",control=list(adaptive=FALSE))
 for(k in 1:K){
    nbModel_conf$addSampler(target=c(paste("b[",k,"]",sep=""),paste("b0[",k,"]",sep="")),type="AF_slice")
    #nbModel_conf$addSampler(target=paste("alpha[1:",N,",",k,"]",sep="") ,type="RW_block")
@@ -78,7 +78,7 @@ nbModelMCMC <- buildMCMC(nbModel_conf)
 C_nbModelMCMC <- compileNimble(nbModelMCMC,project=nbModel)
 
 #number of MCMC iterations
-niter=50000
+niter=200000
 
 #set seed for replicability
 set.seed(1)
@@ -87,4 +87,4 @@ set.seed(1)
 samples <- runMCMC(C_nbModelMCMC, niter=niter)
 
 #save samples
-save(samples,file="../Results/MCMC/Kennett/mcmc_samples_kennett_neg_hier.RData")
+save(samples,file="../Results/MCMC/Kennett/mcmc_samples_kennett_neg_hier_200k.RData")
