@@ -29,7 +29,7 @@ X <- rnorm(n=N)
 #X <- shifted_range[2]:shifted_range[1]
 
 ##Kennett
-#X <- as.vector(Kennett[which(Kennett$TShift <= sample_date_range[2] & Kennett$TShift >= sample_date_range[1] ),3])
+X <- as.vector(Kennett[which(Kennett$TShift <= sample_date_range[2] & Kennett$TShift >= sample_date_range[1] ),3])
 
 
 poisData <- list(Y=Y,
@@ -60,7 +60,7 @@ poisModelMCMC <- buildMCMC(poisModel_conf,thin=1,enableWAIC = TRUE)
 C_poisModelMCMC <- compileNimble(poisModelMCMC,project=poisModel)
 
 #number of MCMC iterations
-niter=100000
+niter=50000
 
 #set seed for replicability
 set.seed(1)
@@ -73,5 +73,5 @@ samples <- runMCMC(C_poisModelMCMC, niter=niter)
 #YDF <- cbind(seq(start,end + 1),X,Y)
 ##rects
 YDF <- cbind(Dates,X,Y)
-save(YDF,file="../Data/SimData/kennett_pos_nochrono.RData")
-save(samples,file="../Results/MCMC/Exp/mcmc_samples_exp_neg_null.RData")
+save(YDF,file="../Data/SimData/kennett_neg.RData")
+save(samples,file="../Results/MCMC/Kennett/mcmc_samples_kennett_neg.RData")

@@ -33,4 +33,6 @@ rects_sample <- as.data.frame(cbind(Dates,rects_sample))
 rects_sample <- rects_sample[with(rects_sample,order(-Dates)),]
 
 ###
-#tempx <- Kennett[which(Kennett$TShift <= sample_date_range[2] & Kennett$TShift >= sample_date_range[1] ),c(3,5)]
+#X <- as.vector(Kennett[which(Kennett$TShift <= sample_date_range[2] & Kennett$TShift >= sample_date_range[1]),3])
+#YDF <- data.frame(Dates=rects_sample[,1],X=X,Y=rects_sample[,2])
+#save(YDF,file="../Data/SimData/kennett_neg.RData")
