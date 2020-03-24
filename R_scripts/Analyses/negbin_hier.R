@@ -1,7 +1,7 @@
 nbCode <- nimbleCode({
    ###top-level regression
-   B ~ dunif(-1000,1000)
-   B0 ~ dunif(-1000,1000)
+   B ~ dunif(-100,100)
+   B0 ~ dunif(-100,100)
    sigB ~ dexp(0.01)
    sigB0 ~ dexp(0.01)
    for (k in 1:K) {
@@ -63,7 +63,7 @@ nbModel_conf$addMonitors2(c("b","b0"))
 
 #samplers
 nbModel_conf$removeSamplers(c("B","B0","b","b0"))
-nbModel_conf$addSampler(target=c("B","B0"),type="AF_slice",control=list(adaptive=FALSE))
+nbModel_conf$addSampler(target=c("B","B0"),type="AF_slice",control=list(adaptive=FALSE,scale=3))
 for(k in 1:K){
    nbModel_conf$addSampler(target=c(paste("b[",k,"]",sep=""),paste("b0[",k,"]",sep="")),type="AF_slice")
    #nbModel_conf$addSampler(target=paste("alpha[1:",N,",",k,"]",sep="") ,type="RW_block")

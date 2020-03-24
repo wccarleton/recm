@@ -3,7 +3,7 @@ Kennett <- Kennett[-which(apply(Kennett,1,function(x)any(is.na(x)))),]
 Kennett[,4] <- scale(Kennett[,4],center=T,scale=F)
 Kennett[,3] <- scale(Kennett[,3],center=T,scale=T)
 Kennett$TShift <- seq(7500,7500-dim(Kennett)[1] + 1)
-Ndates = 2000
+Ndates = 1000
 start = 6000
 end = 5000
 B = -1
