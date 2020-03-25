@@ -29,11 +29,11 @@ N <- dim(Y)[1]
 K <- dim(Y)[2]
 
 ##shifting the time scale
-#shifted_range <- -(sample_date_range - start)
-#X <- shifted_range[2]:shifted_range[1]
+shifted_range <- -(sample_date_range - start)
+X <- shifted_range[2]:shifted_range[1]
 
 ##Kennett
-X <- as.vector(Kennett[which(Kennett$TShift <= sample_date_range[2] & Kennett$TShift >= sample_date_range[1]),3])
+#X <- as.vector(Kennett[which(Kennett$TShift <= sample_date_range[2] & Kennett$TShift >= sample_date_range[1]),3])
 
 nbData <- list(Y=Y,
                 X=X)
@@ -87,4 +87,4 @@ set.seed(1)
 samples <- runMCMC(C_nbModelMCMC, niter=niter)
 
 #save samples
-save(samples,file="../Results/MCMC/Kennett/mcmc_samples_kennett_neg_hier.RData")
+save(samples,file="../Results/MCMC/Exp/mcmc_samples_exp_pos_hier.RData")
