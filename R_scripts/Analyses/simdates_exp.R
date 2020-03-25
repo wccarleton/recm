@@ -1,7 +1,7 @@
 Ndates = 1000
 start = 6000
 end = 5000
-B = 0.004
+B = -0.004
 
 prob_fun <- exp(0:(Ndates-1) * B)
 

@@ -87,4 +87,4 @@ set.seed(1)
 samples <- runMCMC(C_nbModelMCMC, niter=niter)
 
 #save samples
-save(samples,file="../Results/MCMC/Exp/mcmc_samples_exp_pos_hier.RData")
+save(samples,file="../Results/MCMC/Exp/mcmc_samples_exp_neg_hier.RData")
