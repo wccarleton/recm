@@ -1,10 +1,10 @@
-burnin <- 2000
-
+burnin <- 1000
+thin <- 9
 #nochrono
 ##positive
 load("../Results/MCMC/Kennett/mcmc_samples_kennett_pos_nochrono.RData")
 niter <- dim(samples$samples)[1]
-df <- data.frame(B = samples$samples[burnin:niter,1])
+df <- data.frame(B = samples$samples[seq(burnin,niter,thin),1])
 p1 <- ggplot(data=df) +
          geom_density(mapping=aes(x=B, y=..scaled..),fill="grey",alpha=0.75,colour=NA) +
          theme_minimal() +
@@ -19,7 +19,7 @@ p1 <- ggplot(data=df) +
 ##negative
 load("../Results/MCMC/Kennett/mcmc_samples_kennett_neg_nochrono.RData")
 niter <- dim(samples$samples)[1]
-df <- data.frame(B = samples$samples[burnin:niter,1])
+df <- data.frame(B = samples$samples[seq(burnin,niter,thin),1])
 p2 <- ggplot(data=df) +
          geom_density(mapping=aes(x=B, y=..scaled..),fill="grey",alpha=0.75,colour=NA) +
          theme_minimal() +
@@ -33,7 +33,7 @@ p2 <- ggplot(data=df) +
 ##positive
 load("../Results/MCMC/Kennett/mcmc_samples_kennett_pos.RData")
 niter <- dim(samples$samples)[1]
-df <- data.frame(B = samples$samples[burnin:niter,1])
+df <- data.frame(B = samples$samples[seq(burnin,niter,thin),1])
 p3 <- ggplot(data=df) +
          geom_density(mapping=aes(x=B, y=..scaled..),fill="grey",alpha=0.75,colour=NA) +
          theme_minimal() +
@@ -48,7 +48,7 @@ p3 <- ggplot(data=df) +
 ##negative
 load("../Results/MCMC/Kennett/mcmc_samples_kennett_neg.RData")
 niter <- dim(samples$samples)[1]
-df <- data.frame(B = samples$samples[burnin:niter,1])
+df <- data.frame(B = samples$samples[seq(burnin,niter,thin),1])
 p4 <- ggplot(data=df) +
          geom_density(mapping=aes(x=B, y=..scaled..),fill="grey",alpha=0.75,colour=NA) +
          theme_minimal() +
@@ -62,7 +62,7 @@ p4 <- ggplot(data=df) +
 ##positive
 load("../Results/MCMC/Kennett/mcmc_samples_kennett_pos_hier.RData")
 niter <- dim(samples$samples)[1]
-df <- data.frame(B = samples$samples[burnin:niter,1])
+df <- data.frame(B = samples$samples[seq(burnin,niter,thin),1])
 p5 <- ggplot(data=df) +
          geom_density(mapping=aes(x=B, y=..scaled..),fill="grey",alpha=0.75,colour=NA) +
          theme_minimal() +
@@ -75,9 +75,9 @@ p5 <- ggplot(data=df) +
 
 
 ##negative
-load("../Results/MCMC/Kennett/mcmc_samples_kennett_neg_hier.RData")
+load("../Results/MCMC/Kennett/mcmc_samples_kennett_neg_hier_plotrun.RData")
 niter <- dim(samples$samples)[1]
-df <- data.frame(B = samples$samples[burnin:niter,1])
+df <- data.frame(B = samples$samples[seq(burnin,niter,thin),1])
 p6 <- ggplot(data=df) +
          geom_density(mapping=aes(x=B, y=..scaled..),fill="grey",alpha=0.75,colour=NA) +
          theme_minimal() +
