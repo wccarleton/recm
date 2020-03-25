@@ -23,7 +23,7 @@ nbCode <- nimbleCode({
 #N <- length(Y)
 
 ##RECTS
-Y <- rects_sample[,2:12]#dim(rects_sample)[2]]
+Y <- rects_sample[,dim(rects_sample)[2]]
 Y[which(is.na(Y))] <- 0
 N <- dim(Y)[1]
 K <- dim(Y)[2]
