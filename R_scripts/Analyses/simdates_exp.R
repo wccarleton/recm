@@ -1,9 +1,10 @@
 Ndates = 1000
+span = 1000
 start = 6000
 end = 5000
-B = -0.004
+B = 0.004
 
-prob_fun <- exp(0:(Ndates-1) * B)
+prob_fun <- exp(0:(span-1) * B)
 
 simdates <- sample(x=start:(end + 1),size=Ndates,replace=T,prob=prob_fun)
 
