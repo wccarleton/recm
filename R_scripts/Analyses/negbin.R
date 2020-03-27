@@ -1,4 +1,4 @@
-poisCode <- nimbleCode({
+nbCode <- nimbleCode({
    B0 ~ dnorm(mean=0,sd=100)
    B ~ dnorm(mean=0,sd=100)
    for (n in 1:N) {
@@ -11,10 +11,9 @@ poisCode <- nimbleCode({
 
 #DATA
 ##No Chrono Uncertainty
-#Y <- rev(hist(simdates,breaks=seq(start,end))$counts)
-#X <- 0:(Ndates - 1)
-#N <- length(Y)
-#X <- as.vector(X_sim[,1])
+Y <- rev(hist(simdates,breaks=seq(start,end))$counts)
+X <- 0:(span - 1)
+N <- length(Y)
 
 ##RECTS
 #Y <- rects_sample[,sample(1:dim(rects_sample[,-1])[2],size=1)]
@@ -32,32 +31,35 @@ poisCode <- nimbleCode({
 #X <- as.vector(Kennett[which(Kennett$TShift <= sample_date_range[2] & Kennett$TShift >= sample_date_range[1] ),3])
 
 
-poisData <- list(Y=Y,
+nbData <- list(Y=Y,
                 X=X)
 
-poisConsts <- list(N=N)
+nbConsts <- list(N=N)
 
-poisInits <- list(B=0,
+nbInits <- list(B=0,
                 B0=0)
 
-poisModel <- nimbleModel(code=poisCode,
-                        data=poisData,
-                        inits=poisInits,
-                        constants=poisConsts)
+nbModel <- nimbleModel(code=nbCode,
+                        data=nbData,
+                        inits=nbInits,
+                        constants=nbConsts)
 
 #compile nimble model to C++ code—much faster runtime
-C_poisModel <- compileNimble(poisModel, showCompilerOutput = FALSE)
+C_nbModel <- compileNimble(nbModel, showCompilerOutput = FALSE)
 
 #configure the MCMC
-poisModel_conf <- configureMCMC(poisModel)
+nbModel_conf <- configureMCMC(nbModel)
+nbModel_conf$addMonitors2(c("y"))
 
-poisModel_conf$addMonitors2(c("y"))
+#samplers
+nbModel_conf$removeSamplers(c("B","B0"))
+nbModel_conf$addSampler(target=c("B","B0"),type="AF_slice")
 
 #build MCMC
-poisModelMCMC <- buildMCMC(poisModel_conf,thin=1,enableWAIC = TRUE)
+nbModelMCMC <- buildMCMC(nbModel_conf,thin=1,enableWAIC = TRUE)
 
 #compile MCMC to C++—much faster
-C_poisModelMCMC <- compileNimble(poisModelMCMC,project=poisModel)
+C_nbModelMCMC <- compileNimble(nbModelMCMC,project=nbModel)
 
 #number of MCMC iterations
 niter=100000
@@ -66,7 +68,7 @@ niter=100000
 set.seed(1)
 
 #save the MCMC chain (monitored variables) as a matrix
-samples <- runMCMC(C_poisModelMCMC, niter=niter)
+samples <- runMCMC(C_nbModelMCMC, niter=niter)
 
 #save samples
 ##no chrono
