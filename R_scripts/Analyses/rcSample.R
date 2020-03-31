@@ -10,7 +10,7 @@ calSampleApprox <- function(x,t1,t2,r){
 resolution <- 1
 
 ndates <- Ndates
-nsamps <- 200
+nsamps <- 100
 
 sample_date_range <- range(unlist(lapply(c14post[1:ndates],function(x)range(x[,1]))))
 

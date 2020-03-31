@@ -19,7 +19,7 @@ nbCode <- nimbleCode({
 #DATA
 
 ##RECTS
-Y <- rects_sample[,2:41]#dim(rects_sample)[2]]
+Y <- rects_sample[,-1]
 Y[which(is.na(Y))] <- 0
 N <- dim(Y)[1]
 K <- dim(Y)[2]
@@ -27,9 +27,6 @@ K <- dim(Y)[2]
 ##shifting the time scale for the monotonic process
 shifted_range <- -(sample_date_range - start)
 X <- shifted_range[2]:shifted_range[1]
-
-##Kennett
-#X <- as.vector(Kennett[which(Kennett$TShift <= sample_date_range[2] & Kennett$TShift >= sample_date_range[1]),3])
 
 nbData <- list(Y=Y,
                 X=X)
@@ -87,4 +84,10 @@ set.seed(1)
 samples <- runMCMC(C_nbModelMCMC, niter=niter)
 
 #save samples
-#save(samples,file="../Results/MCMC/Kenentt/mcmc_samples_kennett_neg_hier.RData")
+if(B > 0){
+   fileout <- paste("../Results/MCMC/Exp/mcmc_samples_exp_","pos_","hier.RData",sep="")
+}else{
+   fileout <- paste("../Results/MCMC/Exp/mcmc_samples_exp_","neg_","hier.RData",sep="")
+}
+
+save(samples,file=fileout))

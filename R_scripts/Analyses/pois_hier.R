@@ -9,33 +9,42 @@ nbCode <- nimbleCode({
       b[k] ~ dnorm(mean=B,sd=sigB)
       b0[k] ~ dnorm(mean=B0,sd=sigB0)
       for (n in 1:N){
-        alpha[n,k] ~ dunif(1e-10,1)
+        #alpha[n,k] ~ dunif(1e-10,1)
         lambda[n,k] <- exp(b0[k] + X[n] * b[k])
-        Y[n,k] ~ dnegbin(size=lambda[n,k],prob=alpha[n,k])
+        Y[n,k] ~ dpois(lambda[n,k])
       }
    }
 })
 
 #DATA
+##No Chrono Uncertainty
+#Y <- rev(hist(simdates,breaks=seq(start,end))$counts)
+#X <- 0:(span - 1)
+#N <- length(Y)
 
 ##RECTS
-Y <- rects_sample[,2:41]#dim(rects_sample)[2]]
+Y <- rects_sample[,sample(2:dim(rects_sample)[2],size=100,replace=F)]
 Y[which(is.na(Y))] <- 0
 N <- dim(Y)[1]
 K <- dim(Y)[2]
 
-##shifting the time scale for the monotonic process
-shifted_range <- -(sample_date_range - start)
+##random null
+#X <- rnorm(n=N)
+
+##shifting the time scale
+#shifted_range <- -(sample_date_range - start)
 X <- shifted_range[2]:shifted_range[1]
 
 ##Kennett
-#X <- as.vector(Kennett[which(Kennett$TShift <= sample_date_range[2] & Kennett$TShift >= sample_date_range[1]),3])
+#X <- as.vector(Kennett[which(Kennett$TShift <= sample_date_range[2] & Kennett$TShift >= sample_date_range[1] ),3])
+
 
 nbData <- list(Y=Y,
                 X=X)
 
 nbConsts <- list(N=N,
-                    K=K)
+                  K=K)
+
 nbInits <- list(B=0,
                 B0=0,
                 b=rep(0,K),
@@ -53,32 +62,20 @@ C_nbModel <- compileNimble(nbModel, showCompilerOutput = FALSE)
 
 #configure the MCMC
 nbModel_conf <- configureMCMC(nbModel)
-
-nbModel_conf$monitors <- c("B","B0","sigB","sigB0")
-nbModel_conf$addMonitors2(c("b","b0"))
+#nbModel_conf$addMonitors2(c("y"))
 
 #samplers
-nbModel_conf$removeSamplers(c("B","B0"))#,"b","b0"))
+nbModel_conf$removeSamplers(c("B","B0"))
 nbModel_conf$addSampler(target=c("B","B0"),type="AF_slice")
-#for(k in 1:K){
-#   nbModel_conf$addSampler(target=c(paste("b[",k,"]",sep=""),paste("b0[",k,"]",sep="")),type="AF_slice")
-#   #nbModel_conf$addSampler(target=paste("alpha[1:",N,",",k,"]",sep="") ,type="RW_block")
-#}
-
-#nbModel_conf$printSamplers()
-
-#thinning to conserve memory when the samples are saved below
-nbModel_conf$setThin(1)
-nbModel_conf$setThin2(1)
 
 #build MCMC
-nbModelMCMC <- buildMCMC(nbModel_conf)
+nbModelMCMC <- buildMCMC(nbModel_conf,thin=1,enableWAIC = TRUE)
 
 #compile MCMC to C++—much faster
 C_nbModelMCMC <- compileNimble(nbModelMCMC,project=nbModel)
 
 #number of MCMC iterations
-niter=200000
+niter=100000
 
 #set seed for replicability
 set.seed(1)
@@ -87,4 +84,9 @@ set.seed(1)
 samples <- runMCMC(C_nbModelMCMC, niter=niter)
 
 #save samples
-#save(samples,file="../Results/MCMC/Kenentt/mcmc_samples_kennett_neg_hier.RData")
+##no chrono
+#YDF <- cbind(seq(start,end + 1),X,Y)
+##rects
+#YDF <- cbind(Dates,X,Y)
+#save(YDF,file="../Data/SimData/kennett_neg.RData")
+#save(samples,file="../Results/MCMC/Exp/mcmc_samples_exp_neg_nochrono.RData")
