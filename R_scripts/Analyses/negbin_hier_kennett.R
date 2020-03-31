@@ -64,8 +64,8 @@ nbModel_conf$addSampler(target=c("B","B0"),type="AF_slice")
 #nbModel_conf$printSamplers()
 
 #thinning to conserve memory when the samples are saved below
-nbModel_conf$setThin(1)
-nbModel_conf$setThin2(1)
+nbModel_conf$setThin(10)
+nbModel_conf$setThin2(10)
 
 #build MCMC
 nbModelMCMC <- buildMCMC(nbModel_conf)
@@ -74,7 +74,7 @@ nbModelMCMC <- buildMCMC(nbModel_conf)
 C_nbModelMCMC <- compileNimble(nbModelMCMC,project=nbModel)
 
 #number of MCMC iterations
-niter=200000
+niter=2000000
 
 #set seed for replicability
 set.seed(1)
