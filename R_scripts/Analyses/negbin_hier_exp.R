@@ -90,4 +90,4 @@ if(B > 0){
    fileout <- paste("../Results/MCMC/Exp/mcmc_samples_exp_","neg_","hier.RData",sep="")
 }
 
-save(samples,file=fileout))
+save(samples,file=fileout)
