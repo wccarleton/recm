@@ -28,10 +28,13 @@ K <- dim(Y)[2]
 shifted_range <- -(sample_date_range - start)
 X <- shifted_range[2]:shifted_range[1]
 
-nbData <- list(Y=Y,
-                X=X)
+##sub sampling for memory/computation
+Nsub <- seq(1,N,10)
 
-nbConsts <- list(N=N,
+nbData <- list(Y=Y[Nsub,],
+                X=X[Nsub])
+
+nbConsts <- list(N=length(Nsub),
                     K=K)
 nbInits <- list(B=0,
                 B0=0,
@@ -75,7 +78,7 @@ nbModelMCMC <- buildMCMC(nbModel_conf)
 C_nbModelMCMC <- compileNimble(nbModelMCMC,project=nbModel)
 
 #number of MCMC iterations
-niter=1000000
+niter=2000000
 
 #set seed for replicability
 set.seed(1)
