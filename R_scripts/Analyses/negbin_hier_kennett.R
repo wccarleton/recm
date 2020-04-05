@@ -87,9 +87,9 @@ samples <- runMCMC(C_nbModelMCMC, niter=niter)
 
 #save samples
 if(B > 0){
-   fileout <- paste("../Results/MCMC/Kenentt/mcmc_samples_kennett_","pos_","hier.RData",sep="")
+   fileout <- paste("../Results/MCMC/Kennett/mcmc_samples_kennett_","pos_","hier.RData",sep="")
 }else{
-   fileout <- paste("../Results/MCMC/Kenentt/mcmc_samples_kennett_","neg_","hier.RData",sep="")
+   fileout <- paste("../Results/MCMC/Kennett/mcmc_samples_kennett_","neg_","hier.RData",sep="")
 }
 
 save(samples,file=fileout)
