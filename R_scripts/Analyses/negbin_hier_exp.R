@@ -62,7 +62,6 @@ nbModel_conf$removeSamplers(c("B","B0","b","b0","sigB","sigB0"))
 nbModel_conf$addSampler(target=c("B","B0","sigB","sigB0"),type="AF_slice")
 for(k in 1:K){
    nbModel_conf$addSampler(target=c(paste("b[",k,"]",sep=""),paste("b0[",k,"]",sep="")),type="AF_slice")
-#   #nbModel_conf$addSampler(target=paste("alpha[1:",N,",",k,"]",sep="") ,type="RW_block")
 }
 
 #nbModel_conf$printSamplers()

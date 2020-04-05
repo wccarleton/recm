@@ -19,7 +19,7 @@ nbCode <- nimbleCode({
 #DATA
 
 ##RECTS
-Y <- rects_sample[,-1]
+Y <- rects_sample[,sample(2:101,size=50,replace=F)]#-1]
 Y[which(is.na(Y))] <- 0
 N <- dim(Y)[1]
 K <- dim(Y)[2]
@@ -57,18 +57,17 @@ nbModel_conf$monitors <- c("B","B0","sigB","sigB0")
 nbModel_conf$addMonitors2(c("b","b0"))
 
 #samplers
-nbModel_conf$removeSamplers(c("B","B0"))#,"b","b0"))
-nbModel_conf$addSampler(target=c("B","B0"),type="AF_slice")
-#for(k in 1:K){
-#   nbModel_conf$addSampler(target=c(paste("b[",k,"]",sep=""),paste("b0[",k,"]",sep="")),type="AF_slice")
-#   #nbModel_conf$addSampler(target=paste("alpha[1:",N,",",k,"]",sep="") ,type="RW_block")
-#}
+nbModel_conf$removeSamplers(c("B","B0","b","b0","sigB","sigB0"))
+nbModel_conf$addSampler(target=c("B","B0","sigB","sigB0"),type="AF_slice")
+for(k in 1:K){
+   nbModel_conf$addSampler(target=c(paste("b[",k,"]",sep=""),paste("b0[",k,"]",sep="")),type="AF_slice")
+}
 
 #nbModel_conf$printSamplers()
 
 #thinning to conserve memory when the samples are saved below
-nbModel_conf$setThin(10)
-nbModel_conf$setThin2(10)
+nbModel_conf$setThin(1)
+nbModel_conf$setThin2(1)
 
 #build MCMC
 nbModelMCMC <- buildMCMC(nbModel_conf)
@@ -77,7 +76,7 @@ nbModelMCMC <- buildMCMC(nbModel_conf)
 C_nbModelMCMC <- compileNimble(nbModelMCMC,project=nbModel)
 
 #number of MCMC iterations
-niter=2000000
+niter=500000
 
 #set seed for replicability
 set.seed(1)
