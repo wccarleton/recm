@@ -1,4 +1,4 @@
-burnin <- 2000
+burnin <- 5000
 thin <- 9
 #nochrono
 ##positive

@@ -1,7 +1,7 @@
 #positive
 ##no chrono
 load("../Results/MCMC/Kennett/mcmc_samples_kennett_pos_nochrono.RData")
-burnin <- 10000
+burnin <- 5000
 niter <- dim(samples$samples)[1]
 noms <- colnames(samples$samples)
 cols <- grep("B",noms)
@@ -25,7 +25,7 @@ for(j in 1:ncols){
 
 ##RECE member
 load("../Results/MCMC/Kennett/mcmc_samples_kennett_pos.RData")
-burnin <- 10000
+burnin <- 5000
 niter <- dim(samples$samples)[1]
 noms <- colnames(samples$samples)
 cols <- grep("B",noms)
@@ -48,13 +48,14 @@ for(j in 1:ncols){
 }
 
 ##HiREC
-load("../Results/MCMC/Kennett/mcmc_samples_kennett_pos_hier.RData")
-burnin <- 10000
-niter <- dim(samples$samples)[1]
-noms <- colnames(samples$samples)
+#load("../Results/MCMC/Kennett/mcmc_samples_kennett_pos_hier.RData")
+samples <- read.csv("../Results/MCMC/Kennett/mcmc_samples_kennett_pos_hier.csv",as.is=T)
+burnin <- 5000
+niter <- dim(samples)[1]
+noms <- colnames(samples)
 cols <- grep("B",noms)[c(1,2)]
 ncols <- length(cols)
-chains <- samples$samples[burnin:niter,cols]
+chains <- samples[burnin:niter,cols]
 nsamps <- dim(chains)[1]
 samps <- 1:nsamps
 namen <- c("beta","beta[0]","sigma[beta]","sigma[beta[0]]")
@@ -76,7 +77,7 @@ for(j in 1:ncols){
 #Negative
 ##no chrono
 load("../Results/MCMC/Kennett/mcmc_samples_kennett_neg_nochrono.RData")
-burnin <- 10000
+burnin <- 5000
 niter <- dim(samples$samples)[1]
 noms <- colnames(samples$samples)
 cols <- grep("B",noms)
@@ -100,7 +101,7 @@ for(j in 1:ncols){
 
 ##RECE member
 load("../Results/MCMC/Kennett/mcmc_samples_kennett_neg.RData")
-burnin <- 10000
+burnin <- 5000
 niter <- dim(samples$samples)[1]
 noms <- colnames(samples$samples)
 cols <- grep("B",noms)
@@ -123,13 +124,14 @@ for(j in 1:ncols){
 }
 
 ##HiREC
-load("../Results/MCMC/Kennett/mcmc_samples_kennett_neg_hier.RData")
-burnin <- 10000
-niter <- dim(samples$samples)[1]
-noms <- colnames(samples$samples)
+#load("../Results/MCMC/Kennett/mcmc_samples_kennett_neg_hier.RData")
+samples <- read.csv("../Results/MCMC/Kennett/mcmc_samples_kennett_neg_hier.csv",as.is=T)
+burnin <- 5000
+niter <- dim(samples)[1]
+noms <- colnames(samples)
 cols <- grep("B",noms)[c(1,2)]
 ncols <- length(cols)
-chains <- samples$samples[burnin:niter,cols]
+chains <- samples[burnin:niter,cols]
 nsamps <- dim(chains)[1]
 samps <- 1:nsamps
 namen <- c("beta","beta[0]","sigma[beta]","sigma[beta[0]]")

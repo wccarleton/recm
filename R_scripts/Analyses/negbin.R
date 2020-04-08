@@ -13,6 +13,7 @@ nbCode <- nimbleCode({
 ##No Chrono Uncertainty
 Y <- rev(hist(simdates,breaks=seq(start,end))$counts)
 X <- 0:(span - 1)
+#X <- as.vector(X_sim[,1])
 N <- length(Y)
 
 ##RECTS
@@ -62,7 +63,7 @@ nbModelMCMC <- buildMCMC(nbModel_conf,thin=1,enableWAIC = TRUE)
 C_nbModelMCMC <- compileNimble(nbModelMCMC,project=nbModel)
 
 #number of MCMC iterations
-niter=100000
+niter=200000
 
 #set seed for replicability
 set.seed(1)
@@ -76,4 +77,4 @@ samples <- runMCMC(C_nbModelMCMC, niter=niter)
 ##rects
 #YDF <- cbind(Dates,X,Y)
 #save(YDF,file="../Data/SimData/kennett_neg.RData")
-#save(samples,file="../Results/MCMC/Exp/mcmc_samples_exp_neg_nochrono.RData")
+save(samples,file="../Results/MCMC/Exp/mcmc_samples_exp_neg_nochrono.RData")

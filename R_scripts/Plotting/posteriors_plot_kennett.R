@@ -1,4 +1,4 @@
-burnin <- 1000
+burnin <- 5000
 thin <- 9
 #nochrono
 ##positive
@@ -75,7 +75,7 @@ p5 <- ggplot(data=df) +
 
 
 ##negative
-load("../Results/MCMC/Kennett/mcmc_samples_kennett_neg_hier_plotrun.RData")
+load("../Results/MCMC/Kennett/mcmc_samples_kennett_neg_hier.RData")
 niter <- dim(samples$samples)[1]
 df <- data.frame(B = samples$samples[seq(burnin,niter,thin),1])
 p6 <- ggplot(data=df) +
