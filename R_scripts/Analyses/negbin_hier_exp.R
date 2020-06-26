@@ -27,8 +27,8 @@ N <- dim(Y)[1]
 K <- dim(Y)[2]
 
 ##shifting the time datum for the monotonic process
-shifted_range <- -(sample_date_range - start)
-X <- shifted_range[2]:shifted_range[1]
+#shifted_range <- -(sample_date_range - start)
+X <- 0:dim(rects_sample)[1]#shifted_range[2]:shifted_range[1]
 
 ##sub sampling for memory/computation
 Nsub <- seq(1,N,10)
