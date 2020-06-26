@@ -21,7 +21,7 @@ nbCode <- nimbleCode({
 #DATA
 
 ##RECTS
-Y <- rects_sample[,sample(2:101,size=50,replace=F)]#-1]
+Y <- rects_sample[,sample(2:1001,size=5,replace=F)]#-1]
 Y[which(is.na(Y))] <- 0
 N <- dim(Y)[1]
 K <- dim(Y)[2]
