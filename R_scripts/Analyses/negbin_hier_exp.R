@@ -16,8 +16,11 @@ nbCode <- nimbleCode({
    }
 })
 
+#simulation params
 #repn <- 1
-#nmembers
+#nmembers <- 50
+#niter <- 100000
+
 #DATA
 
 ##RECTS
@@ -79,7 +82,7 @@ nbModelMCMC <- buildMCMC(nbModel_conf)
 C_nbModelMCMC <- compileNimble(nbModelMCMC,project=nbModel)
 
 #number of MCMC iterations
-niter=2000000
+#niter=2000000
 
 #set seed for replicability
 set.seed(1)
