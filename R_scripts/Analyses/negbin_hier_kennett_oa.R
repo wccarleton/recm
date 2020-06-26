@@ -4,14 +4,17 @@ nbCode <- nimbleCode({
    B0 ~ dnorm(0,100)
    sigB ~ dunif(1e-10,10)
    sigB0 ~ dunif(1e-10,10)
-   for (k in 1:K) {
+   for(n in 1:N) {
+      alpha[n] ~ dunif(1e-10,1)
+   }
+   for(k in 1:K) {
       ###low-level regression
       b[k] ~ dnorm(mean=B,sd=sigB)
       b0[k] ~ dnorm(mean=B0,sd=sigB0)
       for (n in 1:N){
-        alpha[n,k] ~ dunif(1e-10,1)
         lambda[n,k] <- exp(b0[k] + X[n] * b[k])
-        Y[n,k] ~ dnegbin(size=lambda[n,k],prob=alpha[n,k])
+        Y[n,k] ~ dnegbin(size=lambda[n,k],prob=alpha[n])
+        #y[n,k] ~ dnegbin(size=lambda[n,k],prob=alpha[n])
       }
    }
 })
@@ -54,7 +57,7 @@ C_nbModel <- compileNimble(nbModel, showCompilerOutput = FALSE)
 nbModel_conf <- configureMCMC(nbModel)
 
 nbModel_conf$monitors <- c("B","B0","sigB","sigB0")
-nbModel_conf$addMonitors2(c("b","b0"))
+#nbModel_conf$addMonitors2(c("y"))
 
 #samplers
 nbModel_conf$removeSamplers(c("B","B0","b","b0","sigB","sigB0"))
@@ -67,7 +70,7 @@ for(k in 1:K){
 
 #thinning to conserve memory when the samples are saved below
 nbModel_conf$setThin(1)
-nbModel_conf$setThin2(1)
+#nbModel_conf$setThin2(1)
 
 #build MCMC
 nbModelMCMC <- buildMCMC(nbModel_conf)
@@ -86,9 +89,9 @@ samples <- runMCMC(C_nbModelMCMC, niter=niter)
 
 #save samples
 if(B > 0){
-   fileout <- paste("../Results/MCMC/Kennett/mcmc_samples_kennett_","pos_","hier.RData",sep="")
+   fileout <- paste("../Results/MCMC/Exp/mcmc_samples_exp_","pos_","hier.RData",sep="")
 }else{
-   fileout <- paste("../Results/MCMC/Kennett/mcmc_samples_kennett_","neg_","hier.RData",sep="")
+   fileout <- paste("../Results/MCMC/Exp/mcmc_samples_exp_","neg_","hier.RData",sep="")
 }
 
-save(samples,file=fileout)
+#save(samples,file=fileout)
