@@ -16,6 +16,8 @@ nbCode <- nimbleCode({
    }
 })
 
+#repn <- 1
+
 #DATA
 
 ##RECTS
@@ -87,7 +89,7 @@ samples <- runMCMC(C_nbModelMCMC, niter=niter)
 
 #save samples
 if(B > 0){
-   fileout <- paste("../Results/MCMC/Exp/mcmc_samples_exp_","pos_","hier.RData",sep="")
+   fileout <- paste("../Results/MCMC/Exp/mcmc_samples_exp_","pos_","v",repn,"_hier.RData",sep="")
 }else{
    fileout <- paste("../Results/MCMC/Exp/mcmc_samples_exp_","neg_","hier.RData",sep="")
 }
