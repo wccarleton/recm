@@ -26,5 +26,5 @@ ggsave(filename="../Images/example_dates.png",
       height = 10,
       width = 20,
       units = "cm",
-      scale = 1.5,
-      dpi = 2000)
+      scale = 0.5,
+      dpi = 600)

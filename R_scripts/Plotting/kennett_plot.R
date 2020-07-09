@@ -12,7 +12,7 @@ p1 <- ggplot(data=calcurve) +
     xlim(c(start,end)) +
     theme_minimal() +
     theme(text = element_text(family="Times", size=12),
-            plot.margin=unit(c(0,1,0,1),"cm"),
+            plot.margin=unit(c(0.1,1,0,1),"cm"),
             axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -23,9 +23,10 @@ p2 <- ggplot(data=process_df) +
         geom_path(mapping=aes(y=ProcessY,x=CalendarBP)) +
         scale_x_reverse() +
         xlim(c(start,end)) +
+        labs(y="Process") +
         theme_minimal() +
         theme(text = element_text(family="Times", size=12),
-            plot.margin=unit(c(0,1,0,1),"cm"),
+            plot.margin=unit(c(0.1,1,0,1),"cm"),
             axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -39,7 +40,7 @@ p3 <- ggplot() +
             y="Count") +
         theme_minimal() +
         theme(text = element_text(family="Times", size=12),
-            plot.margin=unit(c(0,1,0,1),"cm"),
+            plot.margin=unit(c(0.1,1,0,1),"cm"),
             axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -51,10 +52,10 @@ p4 <- ggplot(data=rects_df_long) +
         scale_x_reverse() +
         xlim(c(start,end)) +
         labs(x="Date (Calendar BP)",
-            y="REC Ensemble Count") +
+            y="RECE Count") +
         theme_minimal() +
         theme(text = element_text(family="Times", size=12),
-            plot.margin=unit(c(0,1,0,1),"cm"),)
+            plot.margin=unit(c(0.1,1,0,1),"cm"),)
 
 ###
 fig <- ggarrange(p1,p2,p3,p4,
@@ -68,5 +69,5 @@ ggsave(filename="../Images/simdata_kennett_neg.png",
       height = 10,
       width = 20,
       units = "cm",
-      scale = 1.5,
-      dpi = 2000)
+      scale = 1,
+      dpi = 600)

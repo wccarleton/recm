@@ -17,14 +17,15 @@ nbCode <- nimbleCode({
 })
 
 #simulation params
-#repn <- 1
-#nmembers <- 50
-#niter <- 100000
+repn <- "22K"
+nmembers <- 50
+#niter <- 200000
+rects_indeces <- c(102:201)
 
 #DATA
 
 ##RECTS
-Y <- rects_sample[,sample(2:1001,size=nmembers,replace=F)]#-1]
+Y <- rects_sample[,rects_indeces]
 Y[which(is.na(Y))] <- 0
 N <- dim(Y)[1]
 K <- dim(Y)[2]
@@ -82,13 +83,14 @@ nbModelMCMC <- buildMCMC(nbModel_conf)
 C_nbModelMCMC <- compileNimble(nbModelMCMC,project=nbModel)
 
 #number of MCMC iterations
-#niter=2000000
+niter=1000000
 
 #set seed for replicability
 set.seed(1)
 
 #save the MCMC chain (monitored variables) as a matrix
 samples <- runMCMC(C_nbModelMCMC, niter=niter)
+#C_nbModelMCMC$run(niter)
 
 #save samples
 if(B > 0){
