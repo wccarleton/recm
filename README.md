@@ -1,5 +1,5 @@
 
-# Hierarchical Radiocarbon-dated Event Count (HiREC) Modelling
+# Radiocarbon-dated Event Count (REC) Modelling
 ## Overview
 This repo contains the data and R code used for the study presented in the following paper:
 
