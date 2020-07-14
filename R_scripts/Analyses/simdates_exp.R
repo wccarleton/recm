@@ -1,7 +1,7 @@
 Ndates = 1000
 span = 1000
-start = 6000
-end = 5000
+start = 22000#6000
+end = 21000#5000
 B = 0.004
 
 prob_fun <- exp(0:(span-1) * B)

@@ -19,20 +19,20 @@ nbCode <- nimbleCode({
 #simulation params
 repn <- "22K"
 nmembers <- 50
-#niter <- 200000
-rects_indeces <- c(102:201)
+niter <- 400000
+#rects_indeces <- c(102:201)
 
 #DATA
 
 ##RECTS
-Y <- rects_sample[,rects_indeces]
+Y <- rects_sample[,2:51]
 Y[which(is.na(Y))] <- 0
 N <- dim(Y)[1]
 K <- dim(Y)[2]
 
 ##shifting the time datum for the monotonic process
 #shifted_range <- -(sample_date_range - start)
-X <- 0:dim(rects_sample)[1]#shifted_range[2]:shifted_range[1]
+X <- 0:(dim(rects_sample)[1]-1)#shifted_range[2]:shifted_range[1]
 
 ##sub sampling for memory/computation
 Nsub <- seq(1,N,10)
@@ -83,7 +83,7 @@ nbModelMCMC <- buildMCMC(nbModel_conf)
 C_nbModelMCMC <- compileNimble(nbModelMCMC,project=nbModel)
 
 #number of MCMC iterations
-niter=1000000
+#niter=
 
 #set seed for replicability
 set.seed(1)

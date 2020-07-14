@@ -11,8 +11,8 @@ nbCode <- nimbleCode({
 
 #DATA
 ##No Chrono Uncertainty
-Y <- rev(hist(simdates,breaks=seq(start,end))$counts)
-X <- 0:(span - 1)
+Y <- rev(YDF[,3])#rev(hist(simdates,breaks=seq(start,end))$counts)
+X <- 0:(length(Y)-1)
 #X <- as.vector(X_sim[,1])
 N <- length(Y)
 
@@ -77,4 +77,4 @@ samples <- runMCMC(C_nbModelMCMC, niter=niter)
 ##rects
 #YDF <- cbind(Dates,X,Y)
 #save(YDF,file="../Data/SimData/kennett_neg.RData")
-save(samples,file="../Results/MCMC/Exp/mcmc_samples_exp_neg_nochrono.RData")
+save(samples,file="../Results/MCMC/Exp/mcmc_samples_exp_pos_nochrono.RData")
